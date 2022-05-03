@@ -8,7 +8,8 @@ import (
 	"sync"
 )
 
-// Node a single node that composes the tree
+// Node is the node in the graph.
+// It is accompanied with an int value
 type Node struct {
 	value int
 }
@@ -21,13 +22,14 @@ func (n *Node) Value() int {
 	return n.value
 }
 
-// ItemGraph the Items graph
+// ItemGraph is the Items graph
 type ItemGraph struct {
 	nodes []*Node
 	edges map[Node][]*Node
 	lock  sync.RWMutex
 }
 
+// Constructor of the graph
 func NewGraph() *ItemGraph {
 	g := new(ItemGraph)
 	return g
@@ -41,11 +43,7 @@ func NewNode(v int) *Node {
 
 func (g *ItemGraph) FindNode(v int) (*Node, error) {
 	for _, n := range g.nodes {
-		// fmt.Print(n.value)
-		// fmt.Print(v)
-		// fmt.Println()
 		if n.value == v {
-			// fmt.Println("return")
 			return n, nil
 		}
 	}
@@ -162,7 +160,6 @@ func (g *ItemGraph) GetShortestPath(startNode *Node, endNode *Node) ([]int, int)
 	pq.Enqueue(start)
 
 	for !pq.IsEmpty() {
-		// fmt.Printf("looping")
 		v := pq.Dequeue()
 		if visited[v.Node.Value()] {
 			continue
