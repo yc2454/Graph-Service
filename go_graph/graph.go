@@ -187,8 +187,8 @@ func (g *ItemGraph) GetShortestPath(startNode *Node, endNode *Node) ([]int, int)
 		}
 	}
 
-	fmt.Println(dist)
-	fmt.Println(prev)
+	// fmt.Println(dist)
+	// fmt.Println(prev)
 	pathval := prev[endNode.Value()]
 
 	var finalArr []int
@@ -199,7 +199,7 @@ func (g *ItemGraph) GetShortestPath(startNode *Node, endNode *Node) ([]int, int)
 		pathval = prev[pathval]
 	}
 	finalArr = append(finalArr, pathval)
-	fmt.Println(finalArr)
+	// fmt.Println(finalArr)
 	for i, j := 0, len(finalArr)-1; i < j; i, j = i+1, j-1 {
 		finalArr[i], finalArr[j] = finalArr[j], finalArr[i]
 	}
