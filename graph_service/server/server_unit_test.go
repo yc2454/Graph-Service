@@ -183,7 +183,7 @@ func TestGraphServer_DeleteGraph(t *testing.T) {
 			nil,
 			&pb.GraphID{Id: 1},
 			&pb.DeleteReply{Result: "No such id stored"},
-			"found edge between non-existant nodes",
+			"non-existant graph",
 		},
 	}
 
@@ -225,9 +225,6 @@ func TestGraphServer_DeleteGraph(t *testing.T) {
 
 				if err != nil {
 					if er, ok := status.FromError(err); ok {
-						// if er.Code() != tt.errCode {
-						// 	t.Error("error code: expected", codes.Unknown, "received", er.Code())
-						// }
 						if er.Message() != tt.errMsg {
 							t.Error("error message: expected", tt.errMsg, "received", er.Message())
 						}

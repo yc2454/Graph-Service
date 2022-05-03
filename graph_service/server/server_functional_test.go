@@ -92,7 +92,7 @@ func TestGraphServer_SingleClient(t *testing.T) {
 			&pb.DeleteReply{Result: "No such id stored"},
 			nil,
 			nil,
-			"found edge between non-existant nodes",
+			"non-existant graph",
 		},
 	}
 

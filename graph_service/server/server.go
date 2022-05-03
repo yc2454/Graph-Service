@@ -90,13 +90,13 @@ func (s *graphServiceServer) DeleteGraph(ctx context.Context, id *pb.GraphID) (*
 	reply := new(pb.DeleteReply)
 
 	if g == nil {
-		reply.Result = "No such id stored"
+		return nil, errors.New("non-existant graph")
 	} else {
 		s.graphs[id.Id] = nil
 		reply.Result = "Successfully deleted the graph"
+		return reply, nil
 	}
 
-	return reply, nil
 }
 
 func newServer() *graphServiceServer {
