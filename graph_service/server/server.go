@@ -5,7 +5,7 @@ import (
 	"errors"
 	"flag"
 
-	graph "github.com/yc2454/Graph-Service/graph_impl"
+	graph "github.com/yc2454/Graph-Service/graph"
 
 	pb "github.com/yc2454/Graph-Service/graph_service"
 )

@@ -1,4 +1,4 @@
-module github.com/yc2454/Graph-Service
+module github.com/yc2454/Graph-Service/graph_service
 
 go 1.18
 
