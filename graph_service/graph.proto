@@ -1,0 +1,57 @@
+
+syntax = "proto3";
+
+option go_package = "github.com/yc2454/Graph-Service/graphservice";
+
+package graphservice;
+
+// The greeting service definition.
+service GraphService {
+  
+  // Post the graph
+  rpc PostGraph (Graph) returns (GraphID) {}
+  
+  // Find the shortest path
+  rpc ShortestPath (PathRequest) returns (Path) {}
+
+  // Delete the graph
+  rpc DeleteGraph (GraphID) returns (DeleteReply) {}
+
+}
+
+// message Vertex {
+//     int32 id = 1;
+// }
+
+message GraphID {
+    int32 id = 1;
+}
+
+// message Edge {
+//     Vertex v1 = 1;
+//     Vertex v2 = 2;
+//     int32 weight = 3;
+// }
+
+message Neighbors {
+    repeated int32 neighbors = 1;
+}
+
+message Graph {
+    repeated int32 vertices = 1;
+    map<int32, Neighbors> edges = 2;
+}
+
+message PathRequest {
+    GraphID gid = 1;
+    int32 s = 2;
+    int32 t = 3;
+}
+
+message Path {
+    repeated int32 path = 1;
+}
+
+message DeleteReply {
+    string result = 1;
+}
