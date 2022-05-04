@@ -34,7 +34,7 @@ The shortest path between 2 and 3 is: 2 1 3
 ``` 
 The client posts a graph, queries about a shortest path, and then deletes the graph. 
 
-I have also attempted a concurrent test for one client in `client_concurrent/client_concurrent.go`, where the client sends multiple requests to the server concurrently. Afterwards, we log down various evaluations of the server. A sample result of running `go run client_concurrent/client_concurrent.go` is:
+I have also attempted a concurrent test for one client in `client_concurrent/client_concurrent.go` using goroutines and channels, where the client sends multiple requests to the server concurrently. Afterwards, we log down various statistics about the server. A sample result of running `go run client_concurrent/client_concurrent.go` is:
 ```
 2022/05/04 16:07:49 Posting graph 0
 2022/05/04 16:07:49 Posting graph 1
@@ -80,5 +80,4 @@ go test -bench=PostGraphPerf
 
 ## Future Directions
 1. When we are finding the shortest path from S to T, we can also find the shortest path from S to all other nodes in the path. If we cache this result, then we can speed up future operations. The cache can also have evictions depending on the frequency of visits (evict the less frequently visited results).
-2. We can add more complexity to the tests. For example, we can have multiple clients making requests concurrently, or we can add more randomization to 
-graph and path generation.  
+2. We can add more complexity to the tests. For example, we can have multiple clients making requests concurrently, or we can add more randomization to graph and path generation.  
