@@ -31,23 +31,14 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	g := new(pb.Graph)
-	g.Vertices = []int32{1, 2, 3, 4, 5}
-	g.Edges = make(map[int32]*pb.Neighbors)
-
-	var nn [5]*pb.Neighbors
-	for i := 0; i < 5; i++ {
-		nn[i] = new(pb.Neighbors)
-	}
-	nn[0].Neighbors = []int32{2, 3, 4, 5}
-	nn[1].Neighbors = []int32{1}
-	nn[2].Neighbors = []int32{1}
-	nn[3].Neighbors = []int32{1}
-	nn[4].Neighbors = []int32{1}
-
-	for i := 1; i < 6; i++ {
-		g.Edges[int32(i)] = nn[i-1]
-	}
+	g := &pb.Graph{Vertices: []int32{1, 2, 3, 4, 5},
+		Edges: map[int32]*pb.Neighbors{
+			1: {Neighbors: []int32{2, 3, 4, 5}},
+			2: {Neighbors: []int32{1}},
+			3: {Neighbors: []int32{1}},
+			4: {Neighbors: []int32{1}},
+			5: {Neighbors: []int32{1}},
+		}}
 
 	log.Printf("Posting graph")
 	id, err := c.PostGraph(ctx, g)
@@ -82,7 +73,7 @@ func main() {
 	log.Printf("Deleting graph %v", id.Id)
 	reply, err2 := c.DeleteGraph(ctx, id)
 	if err2 != nil {
-		log.Fatalf("could find delete graph: %v", err1)
+		log.Fatalf("could find delete graph: %v", err2)
 	}
 
 	log.Printf(reply.Result)

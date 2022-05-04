@@ -5,7 +5,7 @@ This project is consist of two parts: 1. a graph data struture and shortest path
 
 The first part is located in the `go-graph/` directory. This part of the code is referenced from a [blog post](https://medium.com/@rishabhmishra131/golang-dijkstra-algorithm-7bf2722ba0c8), with some small modifications from me. 
 
-The second part is located in the `graph_service/` directory. The service is defined by the protobuf file `graph.proto`, which contains 3 RPC services: `PostGraph`, `ShortestPath`, and `DeleteGraph`. I further implemented the server and the client code, as well as a unit test, a functional test, and a performance test. The client and server code are in their respective folder, and the test are located together with the server.
+The second part is located in the `graph_service/` directory. The service is defined by the protobuf file `graph.proto`, which contains 3 RPC services: `PostGraph`, `ShortestPath`, and `DeleteGraph`. I further implemented the server and the client code, as well as a unit test, a functional test, and a performance test. I protected the server operation with `sync.Mutex` so that it can support concurrent clients. The client and server code are in their respective folder, and the test are located together with the server.
 
 ## Running the Service
 To run the service from command lines, first head to the `graph_service` directory and run start running the server:
@@ -37,9 +37,12 @@ The client posts a graph, queries about a shortest path, and then deletes the gr
 More test cases are in the three test files. To run these tests, type
 ```
 cd server
-go test
+go test -v
 ```
 The user can also use the `-bench` option to see the performance of the service, for example:
 ```
 go test -bench=PostGraphPerf
 ```
+
+## Future Directions
+When we are finding the shortest path from S to T, we can also find the shortest path from S to all other nodes in the path. If we cache this result, then we can speed up future operations.
