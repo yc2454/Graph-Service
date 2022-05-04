@@ -162,7 +162,7 @@ func printStatistics(start time.Time, end time.Time, latencies []time.Duration) 
 		}
 	}
 
-	// Calc statistics
+	// Calculate statistics
 	avg := 0.0
 	max := 0.0
 	min := 1e9
