@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"log"
 	"time"
 
@@ -48,6 +49,7 @@ func main() {
 		g.Edges[int32(i)] = nn[i-1]
 	}
 
+	log.Printf("Posting graph")
 	id, err := c.PostGraph(ctx, g)
 
 	if err != nil {
@@ -61,17 +63,23 @@ func main() {
 	req.S = 2
 	req.T = 3
 
+	log.Printf("Asking for the shortest path between %v and %v", req.S, req.T)
 	path, err1 := c.ShortestPath(ctx, req)
+	log.Printf("Received reply for shortest path")
+
 	if err1 != nil {
 		log.Fatalf("could find shortest graph: %v", err1)
 	}
 
+	fmt.Printf("The shortest path between %v and %v is: ", req.S, req.T)
 	if path != nil {
 		for _, n := range path.Path {
-			log.Printf("%v ", n)
+			fmt.Printf("%v ", n)
 		}
+		fmt.Println()
 	}
 
+	log.Printf("Deleting graph %v", id.Id)
 	reply, err2 := c.DeleteGraph(ctx, id)
 	if err2 != nil {
 		log.Fatalf("could find delete graph: %v", err1)
