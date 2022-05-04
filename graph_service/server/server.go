@@ -1,13 +1,22 @@
-package graphservice
+package main
 
 import (
 	"context"
 	"errors"
+	"flag"
+	"fmt"
+	"log"
+	"net"
 	"sync"
 
 	graph "github.com/yc2454/Graph-Service/graph"
+	"google.golang.org/grpc"
 
 	pb "github.com/yc2454/Graph-Service/graph_service"
+)
+
+var (
+	port = flag.Int("port", 8080, "The server port")
 )
 
 type graphServiceServer struct {
@@ -125,4 +134,20 @@ func newServer() *graphServiceServer {
 	s.graphs = make(map[int32]*graph.ItemGraph)
 	s.curID = 1
 	return s
+}
+
+func main() {
+	flag.Parse()
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
+
+	s := grpc.NewServer()
+	pb.RegisterGraphServiceServer(s, newServer())
+
+	log.Printf("server listening at %v", lis.Addr())
+	if err := s.Serve(lis); err != nil {
+		log.Fatalf("failed to serve: %v", err)
+	}
 }
