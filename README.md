@@ -11,6 +11,7 @@ The second part is located in the `graph_service/` directory. The service is def
 To run the service from command lines, first head to the `graph_service` directory and run start running the server:
 ```
 cd graph_service
+go mod tidy
 go run server/server.go
 ```
 You will see this output:
@@ -19,7 +20,7 @@ You will see this output:
 ```
 And then, in a separate terminal, run:
 ```
-go run client/client
+go run client/client.go
 ```
 This starts a basic test case for the service. Here is a sample output:
 ```
@@ -35,6 +36,7 @@ The client posts a graph, queries about a shortest path, and then deletes the gr
 
 More test cases are in the three test files. To run these tests, type
 ```
+cd server
 go test
 ```
 The user can also use the `-bench` option to see the performance of the service, for example:
