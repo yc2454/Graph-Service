@@ -45,4 +45,5 @@ go test -bench=PostGraphPerf
 ```
 
 ## Future Directions
-When we are finding the shortest path from S to T, we can also find the shortest path from S to all other nodes in the path. If we cache this result, then we can speed up future operations.
+1. When we are finding the shortest path from S to T, we can also find the shortest path from S to all other nodes in the path. If we cache this result, then we can speed up future operations. The cache can also have evictions depending on the frequency of visits (evict the less frequently visited results).
+2. We can add more complexity to the tests, such as randomize the generation of graphs. 
