@@ -45,13 +45,6 @@ func constructGraph() *pb.Graph {
 	return g
 }
 
-// type StatusCode uint8
-//
-// const (
-// 	Success StatusCode = iota
-// 	Failure            = iota
-// )
-
 type QueryResult struct {
 	queryID int
 	path    *pb.Path
@@ -132,7 +125,7 @@ func main() {
 			continue
 		}
 
-		durations[res.queryID] = time.Now().Sub(starts[res.queryID])
+		durations[res.queryID] = time.Since(starts[res.queryID])
 
 		if showResult {
 			fmt.Printf("queryID: %v, path: ", res.queryID)

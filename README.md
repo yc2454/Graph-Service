@@ -34,6 +34,40 @@ The shortest path between 2 and 3 is: 2 1 3
 ``` 
 The client posts a graph, queries about a shortest path, and then deletes the graph. 
 
+I have also attempted a concurrent test for one client in `client_concurrent/client_concurrent.go`, where the client sends multiple requests to the server concurrently. Afterwards, we log down various evaluations of the server. A sample result of running `go run client_concurrent/client_concurrent.go` is:
+```
+2022/05/04 16:07:49 Posting graph 0
+2022/05/04 16:07:49 Posting graph 1
+2022/05/04 16:07:49 Posting graph 2
+2022/05/04 16:07:49 Posting graph 3
+2022/05/04 16:07:49 Posting graph 4
+2022/05/04 16:07:49 Posting graph 5
+2022/05/04 16:07:49 Posting graph 6
+2022/05/04 16:07:49 Posting graph 7
+2022/05/04 16:07:49 Posting graph 8
+2022/05/04 16:07:49 Posting graph 9
+2022/05/04 16:07:49 Successfully deleted the graph
+2022/05/04 16:07:49 Successfully deleted the graph
+2022/05/04 16:07:49 Successfully deleted the graph
+2022/05/04 16:07:49 Successfully deleted the graph
+2022/05/04 16:07:49 Successfully deleted the graph
+2022/05/04 16:07:49 Successfully deleted the graph
+2022/05/04 16:07:49 Successfully deleted the graph
+2022/05/04 16:07:49 Successfully deleted the graph
+2022/05/04 16:07:49 Successfully deleted the graph
+2022/05/04 16:07:49 Successfully deleted the graph
+Total Requests:             1000 hits
+Availability:               100.00 %
+Elapsed time:               0.02 secs
+Request rate:               59502.41 trans/sec
+Successful requests:        1000
+Failed requests:            0
+Longest request:            16222.46 us
+Shortest request:           1505.58 us
+Average request:            11524.33 us
+Request std variance:       3060.13 us
+```
+
 More test cases are in the three test files. To run these tests, type
 ```
 cd server
