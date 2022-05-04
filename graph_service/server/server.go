@@ -3,6 +3,7 @@ package graphservice
 import (
 	"context"
 	"errors"
+	"sync"
 
 	graph "github.com/yc2454/Graph-Service/graph"
 
@@ -19,7 +20,7 @@ type graphServiceServer struct {
 	// Monotonically increase from 1
 	curID int32
 
-	// mu         sync.Mutex // protects routeNotes
+	mu sync.Mutex // protects routeNotes
 }
 
 // PostGraph receives a graph from the client, stores it in the server with an
@@ -57,12 +58,14 @@ func (s *graphServiceServer) PostGraph(ctx context.Context, g *pb.Graph) (*pb.Gr
 		}
 	}
 
+	s.mu.Lock()
 	s.graphs[s.curID] = newGraph
 	id := new(pb.GraphID)
 	id.Id = int32(s.curID)
 
 	// Increase the ID
 	s.curID++
+	s.mu.Unlock()
 
 	return id, nil
 }
@@ -107,7 +110,9 @@ func (s *graphServiceServer) DeleteGraph(ctx context.Context, id *pb.GraphID) (*
 	if g == nil {
 		return nil, errors.New("non-existant graph")
 	} else {
+		s.mu.Lock()
 		s.graphs[id.Id] = nil
+		s.mu.Unlock()
 		reply.Result = "Successfully deleted the graph"
 		return reply, nil
 	}
