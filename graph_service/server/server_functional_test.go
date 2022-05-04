@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"net"
 	"testing"
@@ -60,7 +59,7 @@ func TestGraphServer_SingleClient(t *testing.T) {
 			nil,
 			nil,
 			nil,
-			fmt.Sprintf("cannot deposit %v", -1.11),
+			"",
 		},
 		{
 			"find a shortest path",
@@ -69,7 +68,7 @@ func TestGraphServer_SingleClient(t *testing.T) {
 			nil,
 			&pb.PathRequest{S: 1, T: 2, Gid: &pb.GraphID{Id: 1}},
 			&pb.Path{Path: []int32{1, 2}},
-			fmt.Sprintf("cannot deposit %v", -1.11),
+			"",
 		},
 		{
 			"find another shortest path",
@@ -78,7 +77,7 @@ func TestGraphServer_SingleClient(t *testing.T) {
 			nil,
 			&pb.PathRequest{S: 2, T: 3, Gid: &pb.GraphID{Id: 1}},
 			&pb.Path{Path: []int32{2, 3}},
-			fmt.Sprintf("cannot deposit %v", -1.11),
+			"",
 		},
 		{
 			"delete prev graph",

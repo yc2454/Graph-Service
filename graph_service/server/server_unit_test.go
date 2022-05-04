@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"testing"
 
 	"google.golang.org/grpc/status"
@@ -45,7 +44,7 @@ func TestGraphServer_PostGraph(t *testing.T) {
 					5: {Neighbors: []int32{1}},
 				}},
 			&pb.GraphID{Id: 1},
-			fmt.Sprintf("cannot deposit %v", -1.11),
+			"",
 		},
 		{
 			"invalid graph with edge between non-existant nodes",
@@ -120,7 +119,7 @@ func TestGraphServer_ShortestPath(t *testing.T) {
 			"base case",
 			&pb.PathRequest{S: 1, T: 2, Gid: id},
 			&pb.Path{Path: []int32{1, 2}},
-			fmt.Sprintf("cannot deposit %v", -1.11),
+			"",
 		},
 		{
 			"longer path",
@@ -177,7 +176,7 @@ func TestGraphServer_DeleteGraph(t *testing.T) {
 				}},
 			&pb.GraphID{Id: 1},
 			nil,
-			fmt.Sprintf("cannot deposit %v", -1.11),
+			"",
 		},
 		{
 			"delete prev graph",
