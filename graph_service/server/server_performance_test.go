@@ -7,6 +7,7 @@ import (
 	pb "github.com/yc2454/Graph-Service/graph_service"
 )
 
+// Performance test for posting three graphs in a row
 func BenchmarkGraphServer_PostGraphPerf(b *testing.B) {
 
 	ctx := context.Background()
@@ -52,6 +53,8 @@ func BenchmarkGraphServer_PostGraphPerf(b *testing.B) {
 
 }
 
+// Performance test for posting a graph and finding
+// shortest paths
 func BenchmarkGraphServer_ShortestPathPerf(b *testing.B) {
 
 	ctx := context.Background()
@@ -102,6 +105,7 @@ func BenchmarkGraphServer_ShortestPathPerf(b *testing.B) {
 
 }
 
+// Performance test for posting and deleting a graph
 func BenchmarkGraphServer_DeleteGraphPerf(b *testing.B) {
 
 	ctx := context.Background()

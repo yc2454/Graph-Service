@@ -32,7 +32,11 @@ func dialer() func(context.Context, string) (net.Conn, error) {
 	}
 }
 
+// Simulate the workload from a single client
 func TestGraphServer_SingleClient(t *testing.T) {
+
+	// The client first post a graph, and then ask for
+	// 2 shortest paths before deleting the graph in the end
 	tests := []struct {
 		name   string
 		graph  *pb.Graph
@@ -96,6 +100,7 @@ func TestGraphServer_SingleClient(t *testing.T) {
 		},
 	}
 
+	// Initialize the client
 	ctx := context.Background()
 
 	conn, err := grpc.DialContext(ctx, "", grpc.WithInsecure(), grpc.WithContextDialer(dialer()))
@@ -106,6 +111,7 @@ func TestGraphServer_SingleClient(t *testing.T) {
 
 	client := pb.NewGraphServiceClient(conn)
 
+	// Run the workload of the client
 	for i, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 

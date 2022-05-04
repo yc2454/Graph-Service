@@ -24,7 +24,10 @@ func Equal(a, b []int32) bool {
 	return true
 }
 
+// Test the PostGraph function
 func TestGraphServer_PostGraph(t *testing.T) {
+	// Post two graphs to the server, one is valid,
+	// and the other is not
 	tests := []struct {
 		name   string
 		graph  *pb.Graph
@@ -60,9 +63,9 @@ func TestGraphServer_PostGraph(t *testing.T) {
 	}
 
 	ctx := context.Background()
-
 	s := newServer()
 
+	// Check the output of the function
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 
@@ -85,11 +88,13 @@ func TestGraphServer_PostGraph(t *testing.T) {
 	}
 }
 
+// Test the ShortestPath function
 func TestGraphServer_ShortestPath(t *testing.T) {
 
 	ctx := context.Background()
 	s := newServer()
 
+	// First, post a graph to the server
 	g := &pb.Graph{Vertices: []int32{1, 2, 3, 4, 5},
 		Edges: map[int32]*pb.Neighbors{
 			1: {Neighbors: []int32{2, 3, 4, 5}},
@@ -104,6 +109,7 @@ func TestGraphServer_ShortestPath(t *testing.T) {
 		t.Error("cannot post graph", err0)
 	}
 
+	// Query for 2 shortest paths
 	tests := []struct {
 		name   string
 		req    *pb.PathRequest
@@ -124,6 +130,7 @@ func TestGraphServer_ShortestPath(t *testing.T) {
 		},
 	}
 
+	// Check the output of the function
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 
@@ -137,9 +144,6 @@ func TestGraphServer_ShortestPath(t *testing.T) {
 
 			if err != nil {
 				if er, ok := status.FromError(err); ok {
-					// if er.Code() != tt.errCode {
-					// 	t.Error("error code: expected", codes.Unknown, "received", er.Code())
-					// }
 					if er.Message() != tt.errMsg {
 						t.Error("error message: expected", tt.errMsg, "received", er.Message())
 					}
@@ -149,7 +153,11 @@ func TestGraphServer_ShortestPath(t *testing.T) {
 	}
 }
 
+// Test the DeleteGraph function
 func TestGraphServer_DeleteGraph(t *testing.T) {
+
+	// First post a graph, and then execute 2 delete operations:
+	// One is valid and the other is not
 	tests := []struct {
 		name   string
 		graph  *pb.Graph
@@ -188,12 +196,12 @@ func TestGraphServer_DeleteGraph(t *testing.T) {
 	}
 
 	ctx := context.Background()
-
 	s := newServer()
 
 	for i, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 
+			// First check the output of posting the graph
 			if i == 0 {
 				id, err := s.PostGraph(ctx, tt.graph)
 
@@ -205,14 +213,12 @@ func TestGraphServer_DeleteGraph(t *testing.T) {
 
 				if err != nil {
 					if er, ok := status.FromError(err); ok {
-						// if er.Code() != tt.errCode {
-						// 	t.Error("error code: expected", codes.Unknown, "received", er.Code())
-						// }
 						if er.Message() != tt.errMsg {
 							t.Error("error message: expected", tt.errMsg, "received", er.Message())
 						}
 					}
 				}
+				// Check the output of deleting the graphs
 			} else {
 
 				rep, err := s.DeleteGraph(ctx, tt.id)
