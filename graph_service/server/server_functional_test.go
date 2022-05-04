@@ -167,9 +167,3 @@ func TestGraphServer_SingleClient(t *testing.T) {
 		})
 	}
 }
-
-func TestGraphServer_MultiClient(t *testing.T) {
-	for i := 0; i < 3; i++ {
-		go TestGraphServer_SingleClient(t)
-	}
-}
